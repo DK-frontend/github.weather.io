@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气预报</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <style>
+            img {
+                width: 40px;
+                height: 40px;
+            }
+            h1 {
+                text-align: center;
+            }
+            div {
+                margin: 50px auto;
+            }
+            body {
+                background-image: url(image/beijin1.jpg);
+                background-repeat:no-repeat;
+                background-size: cover;
+            }
+            #weather {
+                font-size: 16px;
+                font-weight: 700;
+            }
+            .checkbox label {
+                font-weight: 700;
+            }
+        </style>
+</head>
+
+<body>
+    <h1>天气小站</h1>
+    <form class="col-md-6 col-md-offset-3">
+        <div class="form-group">
+            <label for="place">地区</label>
+            <input type="email" class="form-control" id="place" placeholder="请输入您要查询的地区">
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> 更多天数
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> 生活指数
+            </label>
+        </div>
+    </form>
+    <div class="col-md-6 col-md-offset-3"><button type="submit" class="btn btn-primary">提交</button></div>
+    <div id="weather" class="col-md-8 col-md-offset-2"></div> 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/template-web.js"></script>
+    <script type="text/html" id="template">
+    {{if ret_code == "0"}}
+        <table class="table">
+            <tr>
+                <th>城市</th>
+                <th>省份</th>
+                <th>邮编</th>
+                <th>经度</th>
+                <th>纬度</th>
+                <th>海拔</th>
+            </tr>
+            <tr>
+                <td>{{cityInfo.c3}}</td>
+                <td>{{cityInfo.c7}}</td>
+                <td>{{cityInfo.c12}}</td>
+                <td>{{cityInfo.longitude}}</td>
+                <td>{{cityInfo.latitude}}</td>
+                <td>{{cityInfo.c15}}</td>
+            </tr>
+        </table>
+        {{/if}}
+    <table class="table">
+        <tr>
+            <th>当前日期</th>
+            <th>星期几</th>
+            <th>降水量</th>
+            <th>紫外线强度</th>
+            <th>白天天气</th>
+            <th>夜晚天气</th>
+        </tr>
+        <tr>
+            <td>{{f1.day}}</td>
+            <td>{{f1.weekday}}</td>
+            <td>{{f1.jiangshui}}</td>
+            <td>{{f1.ziwaixian}}</td>
+            <td><img src={{f1.day_weather_pic}}> {{f1.day_weather}} {{f1.day_air_temperature}}℃</td>
+            <td><img src={{f1.night_weather_pic}}> {{f1.night_weather}} {{f1.night_air_temperature}}℃</td>
+        </tr>
+        <tr>
+            <td>{{f2.day}}</td>
+            <td>{{f2.weekday}}</td>
+            <td>{{f2.jiangshui}}</td>
+            <td>{{f2.ziwaixian}}</td>
+            <td><img src={{f2.day_weather_pic}}> {{f2.day_weather}} {{f2.day_air_temperature}}℃</td>
+            <td><img src={{f2.night_weather_pic}}> {{f2.night_weather}} {{f2.night_air_temperature}}℃</td>
+        </tr>
+        <tr>
+            <td>{{f3.day}}</td>
+            <td>{{f3.weekday}}</td>
+            <td>{{f3.jiangshui}}</td>
+            <td>{{f3.ziwaixian}}</td>
+            <td><img src={{f3.day_weather_pic}}> {{f3.day_weather}} {{f3.day_air_temperature}}℃</td>
+            <td><img src={{f3.night_weather_pic}}> {{f3.night_weather}} {{f3.night_air_temperature}}℃</td>
+        </tr>
+        {{if f4}}
+        <tr>
+            <td>{{f4.day}}</td>
+            <td>{{f4.weekday}}</td>
+            <td>{{f4.jiangshui}}</td>
+            <td>{{f4.ziwaixian}}</td>
+            <td><img src={{f4.day_weather_pic}}> {{f4.day_weather}} {{f4.day_air_temperature}}℃</td>
+            <td><img src={{f4.night_weather_pic}}> {{f4.night_weather}} {{f4.night_air_temperature}}℃</td>
+        </tr>
+        <tr>
+            <td>{{f5.day}}</td>
+            <td>{{f5.weekday}}</td>
+            <td>{{f5.jiangshui}}</td>
+            <td>{{f5.ziwaixian}}</td>
+            <td><img src={{f5.day_weather_pic}}> {{f5.day_weather}} {{f5.day_air_temperature}}℃</td>
+            <td><img src={{f5.night_weather_pic}}> {{f5.night_weather}} {{f5.night_air_temperature}}℃</td>
+        </tr>
+        <tr>
+            <td>{{f6.day}}</td>
+            <td>{{f6.weekday}}</td>
+            <td>{{f6.jiangshui}}</td>
+            <td>{{f6.ziwaixian}}</td>
+            <td><img src={{f6.day_weather_pic}}> {{f6.day_weather}} {{f6.day_air_temperature}}℃</td>
+            <td><img src={{f6.night_weather_pic}}> {{f6.night_weather}} {{f6.night_air_temperature}}℃</td>
+        </tr>
+        <tr>
+            <td>{{f7.day}}</td>
+            <td>{{f7.weekday}}</td>
+            <td>{{f7.jiangshui}}</td>
+            <td>{{f7.ziwaixian}}</td>
+            <td><img src={{f7.day_weather_pic}}> {{f7.day_weather}} {{f7.day_air_temperature}}℃</td>
+            <td><img src={{f7.night_weather_pic}}> {{f7.night_weather}} {{f7.night_air_temperature}}℃</td>
+        </tr>
+        {{/if}}
+        {{if f1.index}}
+                <table class="table col-md-8">
+                    <tr>
+                        <th>生活指数</th>
+                        <th>程度</th>
+                        <th>建议</th>
+                    </tr>
+                    <tr>
+                        <td>穿衣指数</td>
+                        <td>{{f1.index.clothes.title}}</td>
+                        <td>{{f1.index.clothes.desc}}</td>
+                    </tr>
+                    <tr>
+                        <td>运动指数</td>
+                        <td>{{f1.index.sports.title}}</td>
+                        <td>{{f1.index.sports.desc}}</td>
+                    </tr>
+                    <tr>
+                        <td>旅游指数</td>
+                        <td>{{f1.index.travel.title}}</td>
+                        <td>{{f1.index.travel.desc}}</td>
+                    </tr>
+                    <tr>
+                        <td>逛街指数</td>
+                        <td>{{f1.index.gj.title}}</td>
+                        <td>{{f1.index.gj.desc}}</td>
+                    </tr>
+                    <tr>
+                        <td>约会指数</td>
+                        <td>{{f1.index.yh.title}}</td>
+                        <td>{{f1.index.yh.desc}}</td>
+                    </tr>
+                </table>
+          {{/if}}
+    </table>
+    </script>
+    <script>
+        var btn = document.querySelector(".btn")
+        var place = document.querySelector("#place")
+        var checkboxs = document.querySelectorAll(".checkbox input")
+        var weather = document.querySelector("#weather")
+        console.log(checkboxs)
+        function formatterDateTime() {
+            var date = new Date()
+            var month = date.getMonth() + 1
+            var datetime = date.getFullYear()
+                + ""// "年"
+                + (month >= 10 ? month : "0" + month)
+                + ""// "月"
+                + (date.getDate() < 10 ? "0" + date.getDate() : date.getDate())
+                + ""
+                + (date.getHours() < 10 ? "0" + date.getHours() : date.getHours())
+                + ""
+                + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes())
+                + ""
+                + (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds());
+            return datetime;
+        }
+        btn.addEventListener("click", function () {
+            var status = ["0","0","0","0"]
+            console.log("affasdafasfasfa")
+            for (let i = 0; i < checkboxs.length; i++) {
+                if(checkboxs[i].checked === true){
+                    status[i] = "1"
+                }else{
+                    status[i] = "0"
+                }
+                
+            }
+            $.ajax({
+                type: 'post',
+                url: 'http://route.showapi.com/9-2',
+                dataType: 'json',
+                data: {
+                    "showapi_timestamp": formatterDateTime(),
+                    "showapi_appid": '300816', //这里需要改成自己的appid
+                    "showapi_sign": '0b956dbeabe848b8a06b46cb0b8ab8a2',  //这里需要改成自己的应用的密钥secret
+                    // "areaCode": "",
+                    // "areaid": "",
+                    "area": place.value,
+                    "needMoreDay": status[0],
+                    "needIndex": status[1],
+                    "need3HourForcast": status[2],
+                    "needAlarm": status[3],
+                    "needHourData": ""
+                },
+
+                error: function (XmlHttpRequest, textStatus, errorThrown) {
+                    alert("操作失败!");
+                },
+                success: function (result) {
+                    console.log(result) //console变量在ie低版本下不能用
+                    // alert(result.showapi_res_code)
+                    weather.innerHTML = template("template",result.showapi_res_body)
+                }
+            });
+        })
+
+    </script>
+</body>
+
+</html>
